@@ -14,37 +14,27 @@ class App extends Component {
 
   componentDidMount() {
     fetch("https://jsonplaceholder.typicode.com/users")
-    .then(response => 
-      response.json())
-      .then(users => 
-        this.setState({ 
-          robots: users 
-        }
-    ));
+    .then(response => response.json())
+    .then(users => { });
   }
 
-  onSearchChange(event) {
-    console.log(event.target.value);
-    this.setState({ searchfield: event.target.value });
+  onSearchChange = (event) => {
+    this.setState(event.target.value);
   }
 
   render() {
     const filteredRobots = this.state.robots.filter(robots => {
       return robots.name.toLowerCase().includes(this.state.searchfield.toLowerCase());
       })
-      if (this.state.searchfield === "") {
-        return (
-          <div className="tc">
-            <h1>Waiting user's input...</h1>
-            <SearchBox searchChange={this.onSearchChange.bind(this)}/>
-          </div>)} 
-        else {
-        return (
+      if (this.state.robots.length === 0) {
+        return <h1 className="tc">Loading ..</h1>
+        } else {
+         return (
           <div className="tc">
             <h1 className="f1">Robot Friends</h1>
-            <SearchBox searchChange={this.onSearchChange.bind(this)}/>
+            <SearchBox searchChange={this.onSearchChange}/>
             <CardList robots={filteredRobots}/>
-          </div>);
+          </div>)
         }
       }
     }
